@@ -4,7 +4,7 @@ date: 2018-08-31 16:40:00
 tags: git
 ---
 
-
+git 码农必备，那下面简单了解下git的原理吧
 ### git层级关系：工作目录(workspace)、暂存区(index/stage)、本地仓库(local repository)和远程仓库(remote repository)
 只有被提交到本地仓库的文件才会被git跟踪变化，但是在提交到本地仓库之前需要先添加到暂存区。这里说的提交和添加都是文件快照而不是实际文件
 {% asset_img git__liucheng.png 目标图片 %}

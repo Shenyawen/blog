@@ -1,7 +1,7 @@
 ---
 title: eslint环境配置
 date: 2018-09-10 17:02:47
-tags: eslint, 代码规范
+tags: eslint 代码规范
 ---
 
 今天教师节，首先祝愿各位老师节日快乐！
@@ -227,3 +227,7 @@ alert('foo'); // eslint-disable-line no-alert, quotes, semi
 // eslint-disable-next-line no-alert, quotes, semi
 alert('foo');
 ```
+[eslint中文官网](http://eslint.cn/)
+[eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react)
+[eslint-plugin-import](https://www.npmjs.com/package/eslint-plugin-import)
+[eslint-plugin-jsx-a11y](https://www.npmjs.com/package/eslint-plugin-jsx-a11y)

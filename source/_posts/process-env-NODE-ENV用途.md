@@ -1,7 +1,7 @@
 ---
 title: process.env.NODE_ENV用途
 date: 2018-09-03 14:52:52
-tags: nodeJs, webpack
+tags: javascript
 ---
 
 process是nodeJS的一个全局对象，在node代码的所有位置都能访问到该对象不需要通过reqiure方法
@@ -29,8 +29,17 @@ process.env.NODE_ENV === 'production' // 也可以简写成prod,表示生产环�
 }
 ```
 这样就可以在webpack.config.js中通过process.env.NODE_ENV访问到值，但是无法在项目代码(即业务代码)中访问到process.env.NODE_ENV
-
-2.如果想在项目代码中访问到
+注意：
+当你使用NODE_ENV=development来设置环境变量的时候在windows上有问题，当你希望可以在windows mac上同时跑项目的时候，可以使用cross-env，这个包可以让同样的写法在两端表现一致
+```json
+// package.json
+{
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack --config webpack.dev.config.js"
+  }
+}
+```
+2.如果想在项目代码中访问到process.env.NODE_ENV
 可以通过webpack pluging实现
 ```javascript
 const webpack = require('webpack');
