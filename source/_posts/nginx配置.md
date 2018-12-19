@@ -75,6 +75,54 @@ http {
   # 配置不同站点的时候只需要在/usr/local/etc/nginx/sites-enabled/不断增加新的文件即可
   # include /usr/local/etc/nginx/sites-enabled/*;
 
+  # 可以用server_name来区分不同域名跳转不同的项目页面
+  server {
+    # 监听端口号
+    listen       80;
+    # 服务名称 默认是localhost 也可以是www.xxx.com之类的网址，这样就可以在一个服务器内放置多个服务了
+    server_name  www.todatay.com; 
+
+    # 编码
+    charset utf-8;
+    # gzip
+    gzip            on;
+    # http://blog.csdn.net/jessonlv/article/details/8016284
+    # 设置允许压缩的页面最小字节数，页面字节数从header头中的Content-Length中进行获取。
+    # 默认值是0，不管页面多大都压缩。
+    # 建议设置成大于1k的字节数，小于1k可能会越压越大。
+    # gzip_min_length 1000;
+    # gzip_proxied
+    # 语法: gzip_proxied [off|expired|no-cache|no-store|private|no_last_modified|no_etag|auth|any] ...
+    # 默认值: gzip_proxied off
+    # 作用域: http, server, location
+    # Nginx作为反向代理的时候启用，开启或者关闭后端服务器返回的结果，匹配的前提是后端服务器必须要返回包含"Via"的 header头。
+    # off - 关闭所有的代理结果数据的压缩
+    # expired - 启用压缩，如果header头中包含 "Expires" 头信息
+    # no-cache - 启用压缩，如果header头中包含 "Cache-Control:no-cache" 头信息
+    # no-store - 启用压缩，如果header头中包含 "Cache-Control:no-store" 头信息
+    # private - 启用压缩，如果header头中包含 "Cache-Control:private" 头信息
+    # no_last_modified - 启用压缩,如果header头中不包含 "Last-Modified" 头信息
+    # no_etag - 启用压缩 ,如果header头中不包含 "ETag" 头信息
+    # auth - 启用压缩 , 如果header头中包含 "Authorization" 头信息
+    # any - 无条件启用压缩
+    # gzip_proxied    expired no-cache no-store private auth;
+    # 匹配MIME类型进行压缩
+    # gzip_types      text/plain application/xml application/json;
+    # location 后面的路径可以表示接口地址
+    location /api {
+      # 前端代码放置的根目录
+      # 我这里是放到了/root/www/app_bg项目下
+      root    /root/www/app_bg;
+      # 首页索引文件名称
+      index   index.html index.html;
+      # try_files 最核心的功能是可以替代rewrite
+      # 按顺序检查文件是否存在，返回第一个找到的文件
+      # 如果所有的文件都找不到，会进行一个内部重定向到最后一个参数。
+      # 这样可以解决一个问题就是通过vue或者react打包的SPA应用在使用h5 history路由的时候刷新404
+      try_files $uri $uri/ /index.html;
+    }
+  }
+
   server {
     # 监听端口号
     listen       80;
