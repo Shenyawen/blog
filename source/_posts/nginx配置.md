@@ -184,7 +184,15 @@ http {
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_prefer_server_ciphers  on;
 
+    # web https化
     location / {
+      root   /root/buguniao/www/buguniao_app;
+      index  index.html index.htm;
+      try_files $uri $uri/ /index.html;
+    }
+
+    # 接口https化
+    location /api {
       root   html;
       index  index.html index.htm;
       proxy_pass http://127.0.0.1:8090;
@@ -292,3 +300,29 @@ iptables：应用防火墙规则：                                 [确定]
 iptables：载入额外模块：ip_conntrack_netbios_ns ip_conntrac[确定]ip_nat_ftp
 ```
 就ok了，还不明白的话可以参考[linux 查看并对外开放端口（防火墙拦截处理）](https://www.cnblogs.com/blog-yuesheng521/p/7198829.html)
+
+如果是用阿里云的EOS话，因为它使用的是firewalld防火墙，开通https需要把443端口开放，踩了个小坑
+当你把所有的nginx配置已经配完之后发现依然不能访问https的时候可以看看firewalld的443端口未开放
+
+下面是firewalld的一些常用命令
+```bash
+# 查看端口是否开放
+firewall-cmd --query-port=80/tcp                ##查询端口号80 是否开启
+firewall-cmd --permanent --zone=public --add-port=80/tcp ##永久开放80端口号
+firewall-cmd --permanent --zone=public --remove-port=80/tcp ##移除80端口号
+## --zone #作用域
+## --add-port=80/tcp  #添加端口，格式为：端口/通讯协议
+## --permanent   #永久生效，没有此参数重启后失效
+systemctl status firewalld.service              ##查看防火墙状态
+systemctl [start|stop|restart] firewalld.service  ##启动|关闭|重新启动  防火墙
+## 注意：修改设置后，要重启防火墙
+
+# http服务
+firewall-cmd --query-service http               ##查看http服务是否支持，返回yes或者no
+firewall-cmd --add-service=http                 ##临时开放http服务
+firewall-cmd --add-service=http --permanent     ##永久开放http服务
+firewall-cmd --reload                           ##重启防火墙生效
+# https服务 跟http类似
+firewall-cmd --add-service=https --permanent               
+firewall-cmd --add-service=https --reload
+```
