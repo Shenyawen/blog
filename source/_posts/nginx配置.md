@@ -269,6 +269,15 @@ http {
 80端口是起了一个静态web服务器
 443端口是为了接口https化
 
+修改下面这条可以实现80端口自动重定向到443端口
+```bash
+server {
+    listen        80;
+    server_name  www.todatay.com;
+    rewrite  ^(.*)$ https://${server_name}$1 permanent; 
+}
+```
+
 配置期间也是遇到了各种问题，好在是一一解决了
 下面我简单的说下如何实现的接口https化吧
 域名是阿里的，在阿里云的管理后台申请一个免费的ssl证书
