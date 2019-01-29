@@ -187,3 +187,4 @@ PWA其实跟manifest.json没有关系，有它还是没他都不影响service-wo
 <!-- 设置状态栏颜色： -->
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 ```
+如果各位还想继续深入了解PWA内部实现原理可以参考下[借助Service Worker和cacheStorage缓存及离线开发](https://www.zhangxinxu.com/wordpress/2017/07/service-worker-cachestorage-offline-develop/)、[CacheStorage Api](https://developer.mozilla.org/zh-CN/docs/Web/API/CacheStorage)
